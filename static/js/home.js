@@ -1,10 +1,10 @@
 $(document).ready(function() {
 var csrftoken = getCookie('csrftoken');
 
-       $("#login").submit(function(event){
+       $("#mechanicform").click(function(event){
             $.ajax({
                  type:"POST",
-                 url:"/login/",
+                 url:"/mechanic/add/",
                  data: {
                         'username': $('#username').val(),
                         'password': $('#password').val() // from form
@@ -13,11 +13,13 @@ var csrftoken = getCookie('csrftoken');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
                  success: function(data){
-                     if (data == "Success"){
-                        window.location.href = "/home/"
-                     } 
+                 },
+                 error: function(){
+                    alert("Something Went wrong plz try again")
+                    window.location.href = "/home/"
                  }
             });
             return false; //<---- move it here
        });
 });
+

@@ -5,6 +5,6 @@ from mechanic.views import *
 
 urlpatterns = patterns(
     '',
-    # url(r'^registration/$', 'ppiauth.views.registration',
-    #     name='registration'),
+    url(r'^add/$', 'mechanic.views.add_mechanic',
+        name='add_mechanic'),
 )

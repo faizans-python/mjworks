@@ -3,8 +3,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="side-body padding-top">
-{{request.user}} hellowww
+<div id="main-body" class="side-body padding-top">
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <a href="#">
@@ -189,3 +188,7 @@
                 </div>
 
 {% endblock content %}
+
+{% block scripts_extend %}
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock scripts_extend %}
