@@ -18,6 +18,7 @@
                                 </div>
                                 <div class="card-body">
                                 <form id="mechanicform" method="POST">
+                                    {%csrf_token%}
                                     <div class="sub-title">First Name</div>
                                     <div>
                                         <input type="text" id="first_name" name="first_name" placeholder="First Name" class="form-control" required>
@@ -42,7 +43,7 @@
                                     <div class="sub-title">Gender <span class="description"></span></div>
                                     <div>
                                         <div class="radio3">
-                                          <input type="radio" value="male" name="radio1" id="radio1">
+                                          <input type="radio" value="male" name="radio1" id="radio1" checked="checked">
                                           <label for="radio1">
                                           Male
                                           </label>
@@ -59,7 +60,7 @@
                                         <textarea rows="3" id=about name=about placeholder="About" class="form-control"></textarea>
                                     </div>
                                 <div class="login-button text-center">
-                                    <input type="submit" class="btn btn-primary" value="Save">
+                                    <input type="submit" id="addmechanicbutton" class="btn btn-primary" value="Save">
                                 </div>
                                   </form>
                                 </div>

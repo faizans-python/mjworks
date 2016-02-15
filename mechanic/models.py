@@ -40,4 +40,4 @@ class Mechanic(models.Model):
     advance_taken = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return u''.join((self.first_name, self.last_name))
+        return u' '.join((self.first_name, self.last_name))
