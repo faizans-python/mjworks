@@ -1,0 +1,14 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Part(models.Model):
+    created_by = models.ForeignKey(User)
+    part_name = models.CharField(blank=True, max_length=50)
+    part_company_name = models.CharField(blank=True, max_length=50)
+    price = models.IntegerField(blank=True)
+    part_quantity = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u''.join((self.part_name))
