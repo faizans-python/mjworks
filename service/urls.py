@@ -9,4 +9,6 @@ urlpatterns = patterns(
         name='service_add'),
     url(r'^create/$', 'service.views.service_create',
         name='service_create'),
+    url(r'^search/$', 'service.views.service_search',
+        name='service_search'),
 )

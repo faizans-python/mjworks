@@ -71,3 +71,20 @@ def service_create(request):
         json.JSONEncoder.default = lambda self, obj: (
             obj.isoformat() if isinstance(obj, datetime.datetime) else None)
         return HttpResponse(json.dumps(obj), content_type="application/json")
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def service_search(request):
+    if request.method == "GET":
+        context = RequestContext(request, {
+            "services": Service.objects.filter(
+                is_active=True).only("invoice_number",
+                                     "customer",
+                                     "vehical",
+                                     "is_serviced",
+                                     "service_date",
+                                     "total_pending",
+                                     "total_paid")})
+        return render_to_response('service/servicesearch.html',
+                                  context_instance=context)

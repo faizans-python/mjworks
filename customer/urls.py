@@ -11,4 +11,6 @@ urlpatterns = patterns(
         name='customer_create'),
     url(r'^view/$', 'customer.views.customer_view',
         name='customer_view'),
+    url(r'^edit/(?P<id>[0-9]+)/$', 'customer.views.customer_edit',
+        name='customer_edit'),
 )

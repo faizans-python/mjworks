@@ -1,18 +1,18 @@
 $(document).ready(function() {
-    /*    var csrftoken = getCookie('csrftoken');
+var csrftoken = getCookie('csrftoken');
 
-        $("#mechanicform").submit(function(event){
+       $("#customereditform").submit(function(event){
             event.preventDefault();
             $.ajax({
                  type:"POST",
-                 url:"/mechanic/update/",
-                 data: $("#mechanicform").serialize(),
+                 url:"",
+                 data: $("#customereditform").serialize(),
         beforeSend: function(xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
                  success: function(data){
-                    $("#mechanicform").trigger('reset');
-                    alert(data + " added successfully")
+                    alert("Saved Successfully")
+                    window.location.href = "/customer/view/"
                  },
                  error: function(){
                     alert("Something went wrong plz try again")
@@ -20,5 +20,5 @@ $(document).ready(function() {
                  }
             });
             return false; //<---- move it here
-       });*/
+       });
 });

@@ -36,6 +36,7 @@ class Service(models.Model):
     total_cost = models.IntegerField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_archive = models.BooleanField(default=False)
+    is_serviced = models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.invoice_number)
