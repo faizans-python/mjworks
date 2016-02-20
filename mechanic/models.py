@@ -38,6 +38,35 @@ class Mechanic(models.Model):
     gender = models.CharField(blank=True, max_length=20, null=True)
     phone_number = models.IntegerField()
     advance_taken = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    profile_picture = models.ImageField(
+        upload_to='profile_picture/',
+        blank=True,
+        null=True
+    )
+    profile_picture_icon = ResizedImageField(
+        size=[20, 20],
+        quality=100,
+        crop=['middle', 'center'],
+        upload_to='profile_picture/',
+        blank=True,
+        null=True
+    )
+    profile_picture_thumbnail = ResizedImageField(
+        size=[300, 200],
+        quality=100,
+        upload_to='profile_picture/',
+        blank=True,
+        null=True
+    )
+    profile_picture_macroicon = ResizedImageField(
+        size=[50, 50],
+        quality=100,
+        crop=['middle', 'center'],
+        upload_to='profile_picture/',
+        blank=True,
+        null=True
+    )
 
     def __unicode__(self):
         return u' '.join((self.first_name, self.last_name))

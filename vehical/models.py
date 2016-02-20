@@ -12,11 +12,12 @@ class Vehical(models.Model):
 
     customer = models.ForeignKey(Customer)
     created_by = models.ForeignKey(User)
-    vehical_number = models.CharField(blank=True, max_length=50)
+    vehical_number = models.CharField(unique=True, max_length=50)
     vehical_name = models.CharField(blank=True, max_length=50)
     vehical_colour = models.CharField(blank=True, max_length=50)
     about = models.TextField(blank=True, null=True)
-    last_serviced_date = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+    last_serviced_date = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
-        return u''.join((self.car_number))
+        return u''.join((self.vehical_number))

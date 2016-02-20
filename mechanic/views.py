@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate
-from django.http import HttpResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest
+)
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -37,5 +40,40 @@ def mechanic_view(request):
     if request.method == "GET":
         context = RequestContext(request, {
             "mechanics": Mechanic.objects.all()})
-        return render_to_response('mechanic/mechanic_detail.html', 
-                                  context_instance = context)
+        return render_to_response('mechanic/mechanic_detail.html',
+                                  context_instance=context)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='/')
+def mechanic_delete(request):
+    if request.method == "POST":
+        mechanic_id = request.POST['id']
+        mechanic_obj = Mechanic.objects.filter(id=mechanic_id)
+        if mechanic_obj:
+            mechanic_obj[0].delete()
+            return HttpResponse({"success": True})
+    return HttpResponseBadRequest
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def mechanic_edit(request, id):
+    if request.method == "GET":
+        mechanic_obj = Mechanic.objects.filter(id=id)
+        if mechanic_obj:
+            context = RequestContext(request, {
+                "mechanic": mechanic_obj[0]})
+            return render_to_response('mechanic/editmechanic.html',
+                                      context_instance=context)
+        return HttpResponseBadRequest
+
+    if request.method == "POST":
+        mechanic_values = {}
+        for name, value in request.POST.iteritems():
+            mechanic_values[name] = value
+        del mechanic_values['csrfmiddlewaretoken']
+        mechanic_values['gender'] = mechanic_values['radio1']
+        del mechanic_values['radio1']
+        mechanic_obj = Mechanic.objects.filter(id=id).update(**mechanic_values)
+        return HttpResponse(mechanic_obj)

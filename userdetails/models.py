@@ -35,7 +35,8 @@ class UserProfile(models.Model):
     gender = models.CharField(blank=True, max_length=20,
                               choices=Gender.as_tuple())
     address = models.TextField(blank=True, null=True)
-    phone_number = models.IntegerField(blank=True, null=True)
+    phone_number = models.CharField(blank=True, null=True, max_length=50)
+    is_active = models.BooleanField(default=True)
     profile_picture = models.ImageField(
         upload_to='profile_picture/',
         blank=True,
@@ -66,7 +67,7 @@ class UserProfile(models.Model):
     )
 
     def __unicode__(self):
-        return u''.join((self.first_name, self.last_name))
+        return u' '.join((self.first_name, self.last_name))
 
 
 @receiver(post_save, sender=User)
