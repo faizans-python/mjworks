@@ -3,8 +3,9 @@ from enum import Enum
 from django.db import models
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
-
 from django_resized import ResizedImageField
+
+from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
@@ -25,7 +26,8 @@ class Customer(models.Model):
         def as_tuple(cls):
             return ((item.value, item.name.replace('_', ' ')) for item in cls)
 
-    first_name = models.CharField(blank=True, max_length=50)
+    created_by = models.ForeignKey(User)
+    first_name = models.CharField(max_length=50)
     last_name = models.CharField(blank=True, max_length=50)
     email = models.EmailField(blank=True, null=True)
     about = models.TextField(blank=True, null=True)

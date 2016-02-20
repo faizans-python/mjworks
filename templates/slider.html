@@ -35,15 +35,15 @@
                             </li>
                             <li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#dropdown-table">
-                                    <span class="icon fa fa-table"></span><span class="title">Table</span>
+                                    <span class="icon fa fa-table"></span><span class="title">Customer</span>
                                 </a>
                                 <!-- Dropdown level 1 -->
                                 <div id="dropdown-table" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ul class="nav navbar-nav">
-                                            <li><a href="table/table.html">Table</a>
+                                            <li><a href="{% url 'customer:add_customer' %}">Add Customer</a>
                                             </li>
-                                            <li><a href="table/datatable.html">Datatable</a>
+                                            <li><a href="{% url 'customer:customer_view' %}">View Customer</a>
                                             </li>
                                         </ul>
                                     </div>

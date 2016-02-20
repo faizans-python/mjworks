@@ -38,4 +38,4 @@ class Service(models.Model):
     is_archive = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return u''.join((self.invoice_number))
+        return str(self.invoice_number)

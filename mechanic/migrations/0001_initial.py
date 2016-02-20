@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django_resized.forms
 from django.conf import settings
 
 
@@ -24,6 +25,11 @@ class Migration(migrations.Migration):
                 ('gender', models.CharField(max_length=20, null=True, blank=True)),
                 ('phone_number', models.IntegerField()),
                 ('advance_taken', models.IntegerField(default=0)),
+                ('is_active', models.BooleanField(default=True)),
+                ('profile_picture', models.ImageField(null=True, upload_to=b'profile_picture/', blank=True)),
+                ('profile_picture_icon', django_resized.forms.ResizedImageField(null=True, upload_to=b'profile_picture/', blank=True)),
+                ('profile_picture_thumbnail', django_resized.forms.ResizedImageField(null=True, upload_to=b'profile_picture/', blank=True)),
+                ('profile_picture_macroicon', django_resized.forms.ResizedImageField(null=True, upload_to=b'profile_picture/', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),

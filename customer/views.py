@@ -1,3 +1,44 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth import authenticate
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest
+)
+from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 
-# Create your views here.
+from customer.models import Customer
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def add_customer(request):
+    if request.method == "GET":
+        return render(request, 'customer/addcustomer.html')
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='/')
+def customer_create(request):
+    if request.method == "POST":
+        customer_values = {}
+        for name, value in request.POST.iteritems():
+            customer_values[name] = value
+        del customer_values['csrfmiddlewaretoken']
+        customer_values['created_by'] = request.user
+        customer_values['gender'] = customer_values['radio1']
+        del customer_values['radio1']
+        customer_obj = Customer.objects.create(**customer_values)
+        return HttpResponse(customer_obj)
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def customer_view(request):
+    if request.method == "GET":
+        context = RequestContext(request, {
+            "customers": Customer.objects.all()})
+        return render_to_response('customer/viewcustomer.html',
+                                  context_instance=context)
