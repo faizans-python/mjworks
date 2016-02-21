@@ -33,7 +33,7 @@
                     </div>
                     <div class="sub-title">Contact Number</div>
                     <div>
-                        <input type="number" id="phone_number" name="phone_number" placeholder="Contact Number" class="form-control" required>
+                        <input type="text" id="phone_number" name="phone_number" placeholder="Contact Number" class="form-control" MAXLENGTH=12 onKeyPress="return numbersonly(this, event)" required>
                     </div>
                     <div class="sub-title">Address</div>
                     <div>
