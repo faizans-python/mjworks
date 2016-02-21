@@ -41,13 +41,15 @@ def service_create(request):
         service_form = forms.get('service_deatils')
         mechanic_id = forms.get('mechanic')
         gender = forms.get('gender')
-        customer, customer_status = Customer.objects.get_or_create(
+        del customer_form['radio1']
+        customer = Customer.objects.filter(
             **customer_form)
-        if customer_status:
-            customer.gender = gender
-            customer.save()
+        if not customer:
+            customer_form['created_by'] = request.user
+            customer_form['gender'] = gender
+            customer_obj = Customer.objects.create(**customer_form)
 
-        vehical_form['customer'] = customer
+        vehical_form['customer'] = customer_obj
         vehical = Vehical.objects.filter(**vehical_form)
         if not vehical:
             vehical_form['created_by'] = request.user
@@ -61,7 +63,7 @@ def service_create(request):
         if mechanic_id:
             service_form['serviced_by'] = Mechanic.objects.get(id=mechanic_id)
         service_form['created_by'] = request.user
-        service_form['customer'] = customer
+        service_form['customer'] = customer_obj
         service_form['vehical'] = vehical
         service_form['expected_delivery_date'] = datetime.datetime.strptime(
             service_form['expected_delivery_date'], "%m/%d/%Y").date()
@@ -87,4 +89,28 @@ def service_search(request):
                                      "total_pending",
                                      "total_paid")})
         return render_to_response('service/servicesearch.html',
+                                  context_instance=context)
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def service_view(request, id):
+    if request.method == "GET":
+        service_obj = Service.objects.filter(invoice_number=id)
+        if service_obj:
+            context = RequestContext(request, {
+                "service": service_obj[0]})
+            return render_to_response('service/viewservice.html',
+                                      context_instance=context)
+        return HttpResponseRedirect("/home/")
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def service_pending(request):
+    if request.method == "GET":
+        context = RequestContext(request, {
+            "services": Service.objects.filter(
+                is_active=True, is_serviced=False)})
+        return render_to_response('service/pendingservice.html',
                                   context_instance=context)
