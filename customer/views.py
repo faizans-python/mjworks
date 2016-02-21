@@ -73,3 +73,16 @@ def customer_edit(request, id):
         del customer_values['radio1']
         mechanic_obj = Customer.objects.filter(id=id).update(**customer_values)
         return HttpResponse(mechanic_obj)
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def customer_detail(request, id):
+    if request.method == "GET":
+        cust_obj = Customer.objects.filter(id=id, is_active=True)
+        if cust_obj:
+            context = RequestContext(request, {
+                "customer": cust_obj[0]})
+            return render_to_response('customer/customerdetail.html',
+                                      context_instance=context)
+        return HttpResponseRedirect("/home/")

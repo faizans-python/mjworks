@@ -41,13 +41,16 @@ def service_create(request):
         service_form = forms.get('service_deatils')
         mechanic_id = forms.get('mechanic')
         gender = forms.get('gender')
-        del customer_form['radio1']
+        if customer_form.get('radio1'):
+            del customer_form['radio1']
         customer = Customer.objects.filter(
             **customer_form)
         if not customer:
             customer_form['created_by'] = request.user
             customer_form['gender'] = gender
             customer_obj = Customer.objects.create(**customer_form)
+        else:
+            customer_obj = customer[0]
 
         vehical_form['customer'] = customer_obj
         vehical = Vehical.objects.filter(**vehical_form)

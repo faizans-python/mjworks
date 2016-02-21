@@ -54,7 +54,7 @@
                                     <td>
                                         <div aria-label="Extra-small button group" role="group" class="btn-group btn-group-xs">
                                           <a class="btn btn-default customerbutton" href="{% url 'customer:customer_edit' customer.id %}" type="button">Edit</a>
-                                          <a class="btn btn-default customerbutton" id={{customer.id}} value="view" type="button">View</a>
+                                          <a class="btn btn-default customerbutton" href="{% url 'customer:customer_detail' customer.id %}" id={{customer.id}} value="view" type="button">View</a>
                                         </div>
                                     </td>
                                 </tr>

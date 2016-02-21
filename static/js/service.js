@@ -6,6 +6,10 @@ $(document).ready(function() {
     $("#addcustomer").click(function(event) {
       event.preventDefault();
       $("#customerform").show();
+      $("#customerform").trigger('reset');
+      $('#customerform input').attr('readonly', false);;
+      $('#customerform textarea').attr('readonly', false);;
+      $('#customerform input:radio').attr('disabled', false);
       $("#customerdropdown").prop("disabled", true);
       $("#vehicaldropdown").prop("disabled", true);
       $("#vechicalform").show();
@@ -27,7 +31,7 @@ $(document).ready(function() {
         $("#customerform").show();
         $('#customerform input').attr('readonly', 'readonly');;
         $('#customerform textarea').attr('readonly', 'readonly');;
-        $('#customerform input:radio').attr('disabled', 'true');
+        $('#customerform input:radio').attr('disabled', true);
     }
 
     $("#customerdropdown").change(function() {
