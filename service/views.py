@@ -16,7 +16,11 @@ from django.utils import timezone
 from mechanic.models import Mechanic
 from customer.models import Customer
 from vehical.models import Vehical
-from service.models import Service
+from service.models import (
+    Service,
+    Payment
+)
+from parts.models import Part
 
 
 @require_http_methods(["GET"])
@@ -117,3 +121,90 @@ def service_pending(request):
                 is_active=True, is_serviced=False)})
         return render_to_response('service/pendingservice.html',
                                   context_instance=context)
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def service_edit(request, id):
+    if request.method == "GET":
+        service_obj = Service.objects.filter(invoice_number=id)
+        if service_obj:
+            context = RequestContext(request, {
+                "service": service_obj[0]})
+            return render_to_response('service/editservice.html',
+                                      context_instance=context)
+        return HttpResponseRedirect("/home/")
+    if request.method == "POST":
+        return HttpResponse("EDit")
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def invoice_get(request, id):
+    if request.method == "GET":
+        service_obj = Service.objects.filter(invoice_number=id)
+        if service_obj:
+            context = RequestContext(request, {
+                "service": service_obj[0]})
+            return render_to_response('service/invoice.html',
+                                      context_instance=context)
+        return HttpResponseRedirect("/home/")
+    if request.method == "POST":
+        return HttpResponse("EDit")
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def create_invoice(request):
+    if request.method == "GET":
+        service_objs = Service.objects.filter(
+            is_serviced=False, is_active=True)
+        context = RequestContext(request, {
+            "services": service_objs})
+        return render_to_response('service/invoicecreate.html',
+                                  context_instance=context)
+
+    if request.method == "POST":
+        return HttpResponse("EDit")
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def invoice(request):
+    if request.method == "POST":
+        request_dict = request.POST.dict()
+        data = json.loads(request_dict.keys()[0])
+        service_obj = Service.objects.filter(invoice_number=data.get('service_id'))
+        if service_obj:
+            service_obj = service_obj[0] 
+            if not service_obj.is_serviced:
+                import pdb;pdb.set_trace()
+                service_obj.is_serviced = True
+                service_obj.labour_cost = data.get('labour_cost', 0)
+                service_obj.tax = data.get('tax', 0)
+                service_obj.total_cost = data['total_cost']
+                service_obj.remark = data.get('remark', "")
+                service_obj.next_service_date = data.get('next_service_date')
+                service_obj.delivery_date = timezone.now()
+                service_obj.total_paid += int(data['total_paid'])
+                payment = Payment.objects.create(payment_amount=data.get('total_paid'),
+                                                 recieved_by=request.user)
+                service_obj.total_pending = int(data.get('total_cost')) - int(data['total_paid'])
+
+                part_data = data.get('part_data')
+                part_obj = []
+                part_total_cost = 0
+                for part in part_data:
+                    if part.get('part_name') and part.get('price'):
+                        obj = Part.objects.create(part_name=part.get('part_name'),
+                                                  price=part.get('price'),
+                                                  part_quantity=part.get('part_quantity'),
+                                                  created_by=request.user)
+                        part_total_cost += (int(obj.price) * int(obj.part_quantity))
+                        part_obj.append(obj)
+                service_obj.parts.add(*part_obj)
+                service_obj.payment.add(payment)
+                service_obj.part_cost = part_total_cost
+                service_obj.save()
+                return HttpResponse("EDit") 
+            return HttpResponse("EDit")

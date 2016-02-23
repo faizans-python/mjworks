@@ -15,4 +15,12 @@ urlpatterns = patterns(
         name='service_view'),
     url(r'^pending/$', 'service.views.service_pending',
         name='service_pending'),
+    url(r'^edit/(?P<id>[0-9]+)/$', 'service.views.service_edit',
+        name='service_edit'),
+    url(r'^invoice/create/$', 'service.views.create_invoice',
+        name='create_invoice'),
+    url(r'^invoice/create/(?P<id>[0-9]+)/$', 'service.views.invoice_get',
+        name='invoice_get'),
+    url(r'^invoice/$', 'service.views.invoice',
+        name='invoice'),    
 )
