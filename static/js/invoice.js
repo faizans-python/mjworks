@@ -115,7 +115,7 @@ $(document).ready(function() {
         });
     }
 
-    $("#generateinvoice").click(function(event){
+    $("#makepayment").click(function(event){
         if ($('#tabledata').valid() && $('#costform').valid()) {
             var part_list = calculateSum()
             var data = {
@@ -131,5 +131,35 @@ $(document).ready(function() {
             }
             submitdata(data)
         }
+    });
+
+    $("#pendingamount").click(function(event){
+        totalcost = checkifblank(parseFloat($('#totalcost').val()))
+        pendingpayment = checkifblank(parseFloat($('#pending_amount').val()))
+        pending_cost = $('#total_pending').val()
+        $('#total_pending').val(totalcost - (pending_cost + pendingpayment))
+        data = {
+            "pending_payment": pendingpayment,
+            "total_cost": totalcost,
+            "service_id": $('#service-invoice-number').val()
+        }
+        $.ajax({
+             type:"POST",
+             url:"/service/pending/payment/",
+             dataType: 'json',
+             data: JSON.stringify(data),
+            beforeSend: function(xhr) {
+                var csrftoken = getCookie('csrftoken');
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+             success: function(data){
+                alert(" payment was successfully")
+                window.location.href = "/home/"
+             },
+             error: function(){
+                alert("Something went wrong plz try again")
+                window.location.href = "/home/"
+             }
+        });
     });
 });

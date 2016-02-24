@@ -23,4 +23,8 @@ urlpatterns = patterns(
         name='invoice_get'),
     url(r'^invoice/$', 'service.views.invoice',
         name='invoice'),    
+    url(r'^pending/payment/$', 'service.views.pending_payment',
+        name='pending_payment'),
+    url(r'^invoice/view/(?P<id>[0-9]+)/$', 'service.views.invoice_view',
+        name='invoice_view'),
 )
