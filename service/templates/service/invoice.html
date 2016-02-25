@@ -179,7 +179,7 @@
                                                {% for part in service.parts.all %}
                                                 <tr>
                                                     <th scope="row">1</th>
-                                                    <td>1</td>
+                                                    <td>{{ forloop.counter }}</td>
                                                     <td>{{part.part_name}}</td>
                                                     <td>{{part.part_quantity}}</td>
                                                     <td>{{part.price}}</td>
@@ -211,13 +211,13 @@
                                     <div class="card-body">
                                         <div class="login-button text-center">
                                             <a class="btn btn-primary" id="pendingamount">Pay Pending Amount</a>
-                                            <a class="btn btn-primary" id="generateinvoice" >Generate Invoice</a>
+                                            <a class="btn btn-primary" href="{% url 'service:invoice_view' service.invoice_number %}" id="generateinvoice" >Generate Invoice</a>
                                         </div>
                                     </div>
                                 {% else %}
                                     <div class="card-body">
                                         <div class="login-button text-center">
-                                            <a class="btn btn-primary" id="generateinvoice" >Generate Invoice</a>
+                                            <a class="btn btn-primary" href="{% url 'service:invoice_view' service.invoice_number %}" id="generateinvoice" >Generate Invoice</a>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -291,7 +291,7 @@
                                 <div class="login-button text-center">
                                     <a class="btn btn-primary" id="calculateamount">Calculate Amount</a>
                                     <a class="btn btn-primary" id="makepayment">Make Payment</a>
-                                    <a class="btn btn-primary" id="generateinvoice" >Generate Invoice</a>
+                                    <a class="btn btn-primary" href="{% url 'service:invoice_view' service.invoice_number %}" id="generateinvoice" >Generate Invoice</a>
                                 </div>
                             </div>
                             {% endif %}

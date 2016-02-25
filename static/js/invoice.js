@@ -136,7 +136,7 @@ $(document).ready(function() {
     $("#pendingamount").click(function(event){
         totalcost = checkifblank(parseFloat($('#totalcost').val()))
         pendingpayment = checkifblank(parseFloat($('#pending_amount').val()))
-        pending_cost = $('#total_pending').val()
+        pending_cost = checkifblank(parseFloat($('#total_pending').val()))
         $('#total_pending').val(totalcost - (pending_cost + pendingpayment))
         data = {
             "pending_payment": pendingpayment,
