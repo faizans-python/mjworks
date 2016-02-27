@@ -184,16 +184,17 @@ def invoice(request):
                 service_obj.is_serviced = True
                 service_obj.labour_cost = data.get('labour_cost', 0)
                 service_obj.tax = data.get('tax', 0)
-                service_obj.total_cost = data['total_cost']
+                service_obj.total_cost = data.get('total_cost', 0)
                 service_obj.remark = data.get('remark', "")
-                service_obj.next_service_date = datetime.datetime.strptime(
-                    data.get('next_service_date'), "%m/%d/%Y").date()
+                if data.get('next_service_date'):
+		        service_obj.next_service_date = datetime.datetime.strptime(
+		            data.get('next_service_date'), "%m/%d/%Y").date()
                 service_obj.delivery_date = timezone.now()
-                service_obj.total_paid += int(data['total_paid'])
+                service_obj.total_paid += int(data.get('total_paid', 0))
                 payment = Payment.objects.create(payment_amount=data.get('total_paid'),
                                                  recieved_by=request.user)
                 service_obj.total_pending = int(
-                    data.get('total_cost')) - int(data['total_paid'])
+                    data.get('total_cost', 0)) - int(data.get('total_paid', 0))
 
                 part_data = data.get('part_data')
                 part_obj = []

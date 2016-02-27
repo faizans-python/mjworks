@@ -119,12 +119,12 @@ $(document).ready(function() {
         if ($('#tabledata').valid() && $('#costform').valid()) {
             var part_list = calculateSum()
             var data = {
-                'total_cost': $('#totalcost').val(),
-                'tax' : $('#tax').val(),
-                'total_paid' : $('#total_paid').val(),
-                'labour_cost' : $('#labour_cost').val(),
-                'pending_cost' : $('#total_pending').val(),
-                'next_service_date' : $('#next_service_date').val(),
+                'total_cost': checkifblank($('#totalcost').val()),
+                'tax' : checkifblank($('#tax').val()),
+                'total_paid' : checkifblank($('#total_paid').val()),
+                'labour_cost' : checkifblank($('#labour_cost').val()),
+                'pending_cost' : checkifblank($('#total_pending').val()),
+                'next_service_date' : checkifblank($('#next_service_date').val()),
                 'remark': $('#remark').val(),
                 'part_data': part_list,
                 'service_id': $('#service-invoice-number').val()
