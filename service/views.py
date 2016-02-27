@@ -1,6 +1,7 @@
 import json
 import datetime
 
+from django.template import Context, Template
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate
@@ -12,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils import timezone
+from django.template.loader import get_template
 
 from mechanic.models import Mechanic
 from customer.models import Customer
@@ -248,3 +250,59 @@ def invoice_view(request, id):
                 "service": service_obj[0]})
             return render_to_response('service/invoicepdf.html',
                                       context_instance=context)
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def report(request):
+    if request.method == "GET":
+        context = RequestContext(request, {})
+        return render_to_response('service/report.html',
+                                  context_instance=context)
+    if request.method == "POST":
+        request_dict = request.POST.dict()
+        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y")
+        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y")
+        if request_dict.get('pending'):
+            complete_payment = False
+        else:
+            complete_payment = True
+
+        service_obj = Service.objects.filter(service_date__gt=from_date,
+                                             service_date__lt=till_date,
+                                             complete_payment=complete_payment,
+                                             is_serviced=True)
+        template = get_template('service/reportview.html')
+        context = Context({'services': service_obj, 'from': from_date,
+                           "till": till_date})
+        content = template.render(context)
+        return HttpResponse(content)
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def customer_report(request):
+    if request.method == "GET":
+        context = RequestContext(request, {
+            "customers": Customer.objects.filter(is_active=True)
+            })
+        return render_to_response('service/customerreport.html',
+                                  context_instance=context)
+    if request.method == "POST":
+        request_dict = dict(request.POST.iterlists())
+        customer_id = request_dict.get("customer_id")
+        pending = request_dict.get("pending")
+        if pending:
+            complete_payment = False
+        else:
+            complete_payment = True
+
+        customer_obj = Customer.objects.get(id=customer_id[0])
+
+        service_obj = Service.objects.filter(customer = customer_obj,
+                                             complete_payment=complete_payment,
+                                             is_serviced=True)
+        template = get_template('service/customerreportview.html')
+        context = Context({'services': service_obj, 'customer': customer_obj})
+        content = template.render(context)
+        return HttpResponse(content)
