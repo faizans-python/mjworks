@@ -52,6 +52,7 @@ $(document).ready(function() {
         sum += labour_cost
         var tax_cost = (tax*sum)/100
         sum += tax_cost
+        var advance_payment = checkifblank(parseFloat($('#advance_payment').val()))
 
         if (paid > sum){
             alert("Paid amount cannot be more than total cost")
@@ -65,7 +66,8 @@ $(document).ready(function() {
             $('#total_pending').val(pending);
         }
         else{
-            $('#total_pending').val(sum)
+            var pending = sum - advance_payment
+            $('#total_pending').val(pending)
         }
 
         return parts_list
@@ -78,7 +80,7 @@ $(document).ready(function() {
     $("#addpart").click(function(event){
         console.log("hry")
 
-        var row1= '<th id='+table_id+' scope="row">'+table_id+'</th>'
+        var row1= '<th id='+table_id+' scope="row"> # </th>'
         var row2='<td><input type="text" name="part_name" id="part_name" class="form-control" required></td>'
         var row3='<td><input type="text" name="part_quantity" id="part_quantity" class="form-control" onKeyPress="return floatonly(this, event)"required></td>'
         var row4='<td><input type="text" name="price" id="price" class="form-control" onKeyPress="return floatonly(this, event)" required></td>'
@@ -98,14 +100,13 @@ $(document).ready(function() {
         $.ajax({
              type:"POST",
              url:"/service/invoice/",
-             dataType: 'json',
              data: JSON.stringify(data),
             beforeSend: function(xhr) {
                 var csrftoken = getCookie('csrftoken');
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
              success: function(data){
-                alert("Invoice successfully Generated" + data)
+                alert("Invoice successfully Generated")
                 window.location.href = "/home/"
              },
              error: function(){

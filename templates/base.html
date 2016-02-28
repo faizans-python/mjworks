@@ -25,6 +25,11 @@
 </head>
 
 <body class="flat-blue">
+<style type="text/css">
+    .notifyjs-corner {
+       top: 70px !important;
+    }
+</style>
     <div class="app-container">
         <div class="row content-container">
             <!-- HEADER BAAR -->
@@ -59,11 +64,11 @@
     <script type="text/javascript" src="{% static 'js/ace/ace.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ace/mode-html.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/ace/theme-github.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/notify.min.js' %}"></script>
     <!-- Javascript -->
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
 
     {% block scripts_extend %}{% endblock %}
 </body>
-
 </html>

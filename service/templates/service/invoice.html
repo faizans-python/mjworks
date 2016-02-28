@@ -3,6 +3,15 @@
 {% load staticfiles %}
 
 {% block content %}
+<style type="text/css">
+    .cover {
+        background: url("/static/images/loader.gif") no-repeat scroll center center #FFF;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<div class="cover"></div>
 <div class="side-body">
 <div class="page-title">
     <span class="title">Generate Invoice</span>
@@ -99,7 +108,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="form-group" style="padding-right:5em;">
                             <label for="exampleInputEmail2">Serviced By: </label>&nbsp;&nbsp;
-                            {{service.mechanic|title|default:"Mechanic Not Assigned Yet"}}
+                            {{service.serviced_by|title|default:"NA"|default_if_none:"NA"}}
                         </div>
                         <br>
                         <br>
@@ -178,7 +187,6 @@
                                             <tbody>
                                                {% for part in service.parts.all %}
                                                 <tr>
-                                                    <th scope="row">1</th>
                                                     <td>{{ forloop.counter }}</td>
                                                     <td>{{part.part_name}}</td>
                                                     <td>{{part.part_quantity}}</td>
@@ -274,6 +282,10 @@
                                     <div class="form-group pull-right" style="padding-right:5em;">
                                         <label for="exampleInputEmail2">Total Paid: </label>&nbsp;&nbsp;
                                         <input type="text" name="total_paid" id="total_paid" onKeyPress="return floatonly(this, event)" class="form-control" value=0 required>
+                                    </div>
+                                    <div class="form-group pull-right" style="padding-right:5em;">
+                                        <label for="exampleInputEmail2">Advance Paid: </label>&nbsp;&nbsp;
+                                        <input type="text" name="advance_payment" id="advance_payment" onKeyPress="return floatonly(this, event)" class="form-control" value={{service.advance_payment}} readonly>
                                     </div>
                                 </div>
                             </form>

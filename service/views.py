@@ -76,10 +76,24 @@ def service_create(request):
         service_form['vehical'] = vehical
         service_form['expected_delivery_date'] = datetime.datetime.strptime(
             service_form['expected_delivery_date'], "%m/%d/%Y").date()
+        advance_payment = False
+        if service_form.get('advance_payment'):
+            service_form['advance_payment'] = int(
+                service_form.get('advance_payment'))
+            advance_payment = True
+            payment = Payment.objects.create(
+                payment_amount=int(service_form.get('advance_payment')),
+                recieved_by=request.user)
+        else:
+            service_form['advance_payment'] = 0
+
         service = Service.objects.create(**service_form)
-        obj = list(Service.objects.filter(
+        if advance_payment:
+            service.payment.add(payment)
+            service.save()
+        obj=list(Service.objects.filter(
             invoice_number=service.invoice_number).values())
-        json.JSONEncoder.default = lambda self, obj: (
+        json.JSONEncoder.default=lambda self, obj: (
             obj.isoformat() if isinstance(obj, datetime.datetime) else None)
         return HttpResponse(json.dumps(obj), content_type="application/json")
 
@@ -193,8 +207,12 @@ def invoice(request):
                 service_obj.total_paid += int(data.get('total_paid', 0))
                 payment = Payment.objects.create(payment_amount=data.get('total_paid'),
                                                  recieved_by=request.user)
-                service_obj.total_pending = int(
+                total_pending = int(
                     data.get('total_cost', 0)) - int(data.get('total_paid', 0))
+                total_pending -= service_obj.advance_payment 
+                service_obj.total_pending = total_pending
+                if total_pending < 1:
+                    service_obj.complete_payment = True                    
 
                 part_data = data.get('part_data')
                 part_obj = []
