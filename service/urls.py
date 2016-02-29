@@ -31,4 +31,6 @@ urlpatterns = patterns(
         name='report'),
     url(r'^customer/report/$', 'service.views.customer_report',
         name='customer_report'),
+    url(r'^invoice/list/$', 'service.views.invoice_list',
+        name='invoice_list'),
 )

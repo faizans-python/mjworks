@@ -325,3 +325,21 @@ def customer_report(request):
         context = Context({'services': service_obj, 'customer': customer_obj})
         content = template.render(context)
         return HttpResponse(content)
+
+
+@require_http_methods(["GET"])
+@login_required(login_url='/')
+def invoice_list(request):
+    if request.method == "GET":
+        context = RequestContext(request, {
+            "services": Service.objects.filter(
+                is_active=True,
+                is_serviced=True).only("invoice_number",
+                                       "customer",
+                                       "vehical",
+                                       "is_serviced",
+                                       "service_date",
+                                       "total_pending",
+                                       "total_paid")})
+        return render_to_response('service/listinvoice.html',
+                                  context_instance=context)

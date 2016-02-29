@@ -106,18 +106,21 @@ $(document).ready(function() {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
              success: function(data){
-                alert("Invoice successfully Generated")
-                window.location.href = "/home/"
+                $('body').loading('stop');
+                $.notify("Invoice successfully Generated !", "success");
+                window.location.reload();
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $('body').loading('stop');
+                $.notify("Something went wrong plz try again", "error");
+                window.location.reload();
              }
         });
     }
 
     $("#makepayment").click(function(event){
         if ($('#tabledata').valid() && $('#costform').valid()) {
+            $('body').loading({stoppable: false}, 'start');
             var part_list = calculateSum()
             var data = {
                 'total_cost': checkifblank($('#totalcost').val()),
@@ -135,10 +138,11 @@ $(document).ready(function() {
     });
 
     $("#pendingamount").click(function(event){
+        $('body').loading({stoppable: false}, 'start');
         totalcost = checkifblank(parseFloat($('#totalcost').val()))
         pendingpayment = checkifblank(parseFloat($('#pending_amount').val()))
         pending_cost = checkifblank(parseFloat($('#total_pending').val()))
-        $('#total_pending').val(totalcost - (pending_cost + pendingpayment))
+        $('#total_pending').val(pending_cost - pendingpayment)
         data = {
             "pending_payment": pendingpayment,
             "total_cost": totalcost,
@@ -147,19 +151,20 @@ $(document).ready(function() {
         $.ajax({
              type:"POST",
              url:"/service/pending/payment/",
-             dataType: 'json',
              data: JSON.stringify(data),
             beforeSend: function(xhr) {
                 var csrftoken = getCookie('csrftoken');
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
              success: function(data){
-                alert(" payment was successfully")
-                window.location.href = "/home/"
+                $('body').loading('stop');
+                $.notify(" payment was successfully", "success");
+                window.location.reload();
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $('body').loading('stop');
+                $.notify("Something went wrong plz try again", "error")
+                window.location.reload();
              }
         });
     });

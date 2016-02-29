@@ -88,6 +88,7 @@
 
 <body>
        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+       <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
 
 
 
@@ -149,9 +150,9 @@
                             </td>
                             
                             <td class="pull-right">
-                                Customer:-       {{service.customer}}<br>
-                                Contact Number:- {{service.customer.phone_number}}<br>
-                                Vehical:-        {{service.vehical}}
+                                <span class="fa fa-user">  {{service.customer}}<span><br>
+                                <span class="fa fa-phone">  {{service.customer.phone_number}}<span><br>
+                                <span class="fa fa-truck">  {{service.vehical}} <span>
                             </td>
                         </tr>
                     </table>
