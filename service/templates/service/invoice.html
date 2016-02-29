@@ -2,6 +2,10 @@
 
 {% load staticfiles %}
 
+{% block stylesheets_extend %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="side-body">
 <div class="page-title">
@@ -225,7 +229,7 @@
                                 <br>
                               <div class="form-group" style="padding-right:5em;">
                                     <label for="exampleInputEmail2">Next Service Date: </label>&nbsp;&nbsp;
-                                    <input type="text" id="expected-date" name="next_service_date" class="form-control">
+                                    <input type="text" id="expected-date" name="next_service_date" class="form-control" autocomplete="off">
                                 </div>
                                 <br>
                                 <br>

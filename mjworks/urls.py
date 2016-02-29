@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^login/$', 'userdetails.views.login',
         name='login'),
     url(r'^logout/$',
-        'django.contrib.auth.views.logout',
+        'django.contrib.auth.views.logout', {'next_page': '/'},
         name='logout'),
 ]
 

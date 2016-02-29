@@ -100,7 +100,6 @@ $(document).ready(function() {
     })( jQuery );
 
     function submitserviceform(data) {
-        console.log(data)
         $.ajax({
              type:"POST",
              url:"/service/create/",
@@ -111,8 +110,8 @@ $(document).ready(function() {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
              success: function(data){
-                alert("Service Saved successfully" + data)
-                window.location.href = "/home/"
+/*                alert("Service Saved successfully" + data)*/
+                window.location.href = "/service/pending/"
              },
              error: function(){
                 alert("Something went wrong plz try again")
@@ -126,6 +125,7 @@ $(document).ready(function() {
         $("#customerform").show();
         $("#vechicalform").show();
         if ($('#customerform').valid() && $('#vechicalform').valid()) {
+            $('body').loading({stoppable: false}, 'start');
             var data = {
                 'customer': $('#customerform').serializeJSON(),
                 'vehical': $("#vechicalform").serializeJSON(),

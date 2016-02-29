@@ -51,7 +51,7 @@ class Service(models.Model):
     part_cost = models.FloatField(default=0)
     tax = models.FloatField(default=0)
     advance_payment = models.FloatField(default=0)
-    total_cost = models.IntegerField(default=0)
+    total_cost = models.FloatField(default=0)
     is_active = models.BooleanField(default=True)
     is_archive = models.BooleanField(default=False)
     is_serviced = models.BooleanField(default=False)

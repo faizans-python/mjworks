@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                   <form  id="report-form" action="" class="form-inline" method="post">
+                   <form  id="report-form" action="/service/report/generate/" class="form-inline" method="post">
                     {%csrf_token%}
                     <div class="form-group" style="padding-right:5em;">
                         <label for="exampleInputEmail2">Generate Report From: </label>&nbsp;&nbsp;
@@ -41,6 +41,7 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <div class="login-button text-center">
                         <input type="submit" id="generate-report" class="btn btn-primary" value="Generate Report">
+                        <input type="submit" style="display: none;" id="generate-invoice" class="btn btn-primary" value="Generate Invoice">
                     </div>
                     </form>
                 </div>

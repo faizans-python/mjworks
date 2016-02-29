@@ -3,7 +3,6 @@
 {% load staticfiles %}
 
 {% block content %}
-<form id="central">
 <div class="side-body">
 <div class="page-title">
     <span class="title">Service Details</span>
@@ -93,18 +92,14 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form class="form-inline">
                         <div class="form-group" style="padding-right:5em;">
                             <label for="exampleInputEmail2">Invoice Number: </label>&nbsp;&nbsp;
                             {{service.invoice_number}}
                         </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="form-group" style="padding-right:5em;">
                             <label for="exampleInputEmail2">Serviced By: </label>&nbsp;&nbsp;
                             {{service.mechanic|title|default:"Mechanic Not Assigned Yet"}}
                         </div>
-                        <br>
-                        <br>
                         <div class="form-group" style="padding-right:5em;">
                             <label for="exampleInputEmail2">Remarks: </label>&nbsp;&nbsp;
                             {{service.remark|title|default:"NA"}}
@@ -151,14 +146,6 @@
                                 <label for="exampleInputEmail2">Total Cost: </label>&nbsp;&nbsp;
                                 {{service.total_cost}}
                             </div>
-                            <div class="form-group" style="padding-right:5em;">
-                                <label for="exampleInputEmail2">Recipient Name: </label>&nbsp;&nbsp;
-                                {{service.recipient_name}}
-                            </div>
-                            <div class="form-group" style="padding-right:5em;">
-                                <label for="exampleInputEmail2">Recipient Number: </label>&nbsp;&nbsp;
-                                {{service.recipient_nuber}}
-                            </div>
                         {% else %}
 
                         <div class="form-group" style="padding-right:5em;">
@@ -168,10 +155,9 @@
                         {% endif %}
 
                         <br>
-                    </form>
             </div>
         </div>
     </div>
 </div>
-</form>
+</div>
 {% endblock content %}

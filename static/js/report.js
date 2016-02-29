@@ -9,21 +9,27 @@ $(document).ready(function() {
     $("#generate-report").click(function(event) {
       event.preventDefault();
         
-    $.ajax({
-         type:"POST",
-         url:"",
-         data: $("#report-form").serialize(),
+        $.ajax({
+             type:"POST",
+             url:"",
+             data: $("#report-form").serialize(),
 
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        },
-         success: function(data){
-         	$("#reportresult").html(data)
-         },
-         error: function(){
-            alert("Something went wrong plz try again")
-            window.location.href = "/home/"
-         }
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+             success: function(data){
+             	$("#reportresult").html(data);
+                $("#generate-invoice").show();
+             },
+             error: function(){
+                alert("Something went wrong plz try again")
+                window.location.href = "/home/"
+             }
+        });
     });
+
+    $("#generate-invoice").click(function(event) {
+        console.log("clicked")
+        $("#report-form").submit();
     });
 });

@@ -38,8 +38,6 @@
 
     </nav>
 
-
-
     <div class="invoice-box" id="printable">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -51,84 +49,36 @@
                             </td>
                             <!-- "http://nextstepwebs.com/images/logo.png" -->                            
                             <td>
-                                Invoice #: {{service.invoice_number}}<br>
-                                Created: {{service.service_date}}<br>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            
-            <tr class="information">
-                <td colspan="2">
-                    <table>
-                        <tr>
-                            <td>
                                 M.J. Engineering Works<br>
                                 Vapi, Gujarat<br>
                                 India
-                            </td>
-                            
-                            <td class="pull-right">
-                                <span class="fa fa-user">  {{service.customer}}<span><br>
-                                <span class="fa fa-phone">  {{service.customer.phone_number}}<span><br>
-                                <span class="fa fa-truck">  {{service.vehical}} <span>
+
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
 
-            <table>
-            <h4>Item Description</h4>
-            <tr class="heading">
-                <td>
-                    Check #
-                </td>
-                <td>
-                   Name
-                </td>
-                <td>
-                    Quantity
-                </td>
-                <td>
-                    Price
-                </td>
-            </tr>
-            
-               {% for part in service.parts.all %}
-                <tr class="item">
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{part.part_name}}</td>
-                    <td>{{part.part_quantity}}</td>
-                    <td>{{part.price}}</td>
-                </tr>
-                {% endfor %}
-            </table>
             <br>
             <table>
-            <h4>Payment Description</h4>
+            <h4>Report from {{from_date}} to {{till_date}}</h4>
             <tr class="heading">
-                <td>
-                    Check #
-                </td>
-                <td>
-                    Amount
-                </td>
-                <td>
-                    Date
-                </td>
-                <td>
-                    Recieved By
-                </td>
+            <td>#</td>
+            <td>Name</td>
+            <td>Vehical</td>
+            <td>Total Price</td>
+            <td>Total Paid</td>
+            <td>Total Pending</td>
             </tr>
             
-             {% for payment in service.payment.all %}
+             {% for service in services%}
               <tr class="item">
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{payment.payment_amount}}</td>
-                  <td>{{payment.created_date}}</td>
-                  <td>{{payment.recieved_by}}</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{service.customer}}</td>
+                <td>{{service.vehical}}</td>
+                <td>{{service.total_cost}}</td>
+                <td>{{service.total_paid}}</td>
+                <td>{{service.total_pending}}</td>
               </tr>
               {% endfor %}
             </table>

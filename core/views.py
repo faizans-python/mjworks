@@ -18,14 +18,15 @@ def index(request):
 
 @login_required(login_url='/')
 def home(request):
-    current_month = datetime.now().month
+    today = datetime.now()
     context = RequestContext(request, {
         "pending_service": Service.objects.filter(is_active=True,
                                                   is_serviced=False),
         "total_service": len(Service.objects.filter(is_active=True,
                                                     is_serviced=True)),
         "total_customer": len(Customer.objects.filter(is_active=True)),
-        "monthly_service": len(Service.objects.filter(service_date__month=current_month,
+        "monthly_service": len(Service.objects.filter(service_date__year=today.year,
+                                                      service_date__month=today.month,
                                                       is_active=True,
                                                       is_serviced=True))})
     return render_to_response('core/context.html',

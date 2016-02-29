@@ -343,3 +343,51 @@ def invoice_list(request):
                                        "total_paid")})
         return render_to_response('service/listinvoice.html',
                                   context_instance=context)
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def customer_report_generate(request):
+    if request.method == "POST":
+        request_dict = dict(request.POST.iterlists())
+        customer_id = request_dict.get("customer_id")
+        pending = request_dict.get("pending")
+        if pending:
+            complete_payment = False
+        else:
+            complete_payment = True
+
+        customer_obj = Customer.objects.get(id=customer_id[0])
+
+        service_obj = Service.objects.filter(customer = customer_obj,
+                                             complete_payment=complete_payment,
+                                             is_serviced=True)
+        context = RequestContext(request, {
+            'services': service_obj,
+            'customer': customer_obj})
+        return render_to_response('service/customerreportpdf.html',
+                          context_instance=context)
+
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/')
+def report_generate(request):
+    if request.method == "POST":
+        request_dict = request.POST.dict()
+        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y")
+        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y")
+        if request_dict.get('pending'):
+            complete_payment = False
+        else:
+            complete_payment = True
+
+        service_obj = Service.objects.filter(service_date__gt=from_date,
+                                             service_date__lt=till_date,
+                                             complete_payment=complete_payment,
+                                             is_serviced=True)
+        context = RequestContext(request, {
+            "services": service_obj,
+            "from_date": from_date.date(),
+            "till_date": till_date.date()})
+        return render_to_response('service/reportpdf.html',
+                          context_instance=context)
