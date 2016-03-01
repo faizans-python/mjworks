@@ -345,22 +345,14 @@ def invoice_list(request):
                                   context_instance=context)
 
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET"])
 @login_required(login_url='/')
-def customer_report_generate(request):
-    if request.method == "POST":
-        request_dict = dict(request.POST.iterlists())
-        customer_id = request_dict.get("customer_id")
-        pending = request_dict.get("pending")
-        if pending:
-            complete_payment = False
-        else:
-            complete_payment = True
+def customer_report_generate(request, id):
+    if request.method == "GET":
 
-        customer_obj = Customer.objects.get(id=customer_id[0])
+        customer_obj = Customer.objects.get(id=id)
 
         service_obj = Service.objects.filter(customer = customer_obj,
-                                             complete_payment=complete_payment,
                                              is_serviced=True)
         context = RequestContext(request, {
             'services': service_obj,

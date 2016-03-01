@@ -57,8 +57,13 @@ $(document).ready(function() {
                 }
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
     });
@@ -110,12 +115,16 @@ $(document).ready(function() {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
              success: function(data){
-/*                alert("Service Saved successfully" + data)*/
                 window.location.href = "/service/pending/"
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
     }
@@ -134,6 +143,15 @@ $(document).ready(function() {
                 "gender": $('#customerform input:radio:checked').val()
             }
             submitserviceform(data);
+        }
+        else{
+                    $.toast({
+              heading: 'Error',
+              text: 'Please validate all the above fields!!! ',
+              icon: 'error',
+              hideAfter: 4000,
+              position: 'bottom-right'
+          })
         }
     });
 });

@@ -3,7 +3,8 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate
 from django.http import (
     HttpResponse,
-    HttpResponseBadRequest
+    HttpResponseBadRequest,
+    HttpResponseRedirect
 )
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -31,7 +32,7 @@ def add_mechanic_view(request):
         mechanic_values['gender'] = mechanic_values['radio1']
         del mechanic_values['radio1']
         mechanic_obj = Mechanic.objects.create(**mechanic_values)
-        return HttpResponse(mechanic_obj)
+        return HttpResponseRedirect('/mechanic/view/')
 
 
 @require_http_methods(["GET"])

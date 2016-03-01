@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -13,6 +13,8 @@ from customer.models import Customer
 
 
 def index(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/home/')
     return render(request, 'core/login.html')
 
 

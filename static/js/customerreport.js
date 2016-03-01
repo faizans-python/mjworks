@@ -4,18 +4,11 @@ $(document).ready(function() {
 
   function customerreportform(url) {
       var customer_id = $('#customerdropdown').val();
-      if ($('#pending').is(':checked')) {
-        var pending = true
-      }
-      else{
-        var pending = false
-      }
       $.ajax({
            type:"POST",
            url:url,
            data: {
-              "customer_id": customer_id,
-              "pending": pending
+              "customer_id": customer_id
            },
 
           beforeSend: function(xhr) {
@@ -24,10 +17,22 @@ $(document).ready(function() {
            success: function(data){
             $("#reportresult").html(data);
             $("#generate-invoice").show();
+            $.toast({
+                heading: 'Success',
+                text: 'Report generated Successfully!!! ',
+                icon: 'success',
+                hideAfter: 4000,
+                position: 'bottom-right'
+            })
            },
            error: function(){
-              alert("Something went wrong plz try again")
-              window.location.href = "/home/"
+            $.toast({
+                heading: 'Error',
+                text: 'Something went wrong!!! Please try again',
+                icon: 'error',
+                hideAfter: 4000,
+                position: 'bottom-right'
+            })
            }
       });
     }
@@ -39,9 +44,8 @@ $(document).ready(function() {
     });
 
     $("#generate-invoice").click(function(event) {
-        console.log("clicked")
         event.preventDefault();
-        var url = "/service/customer/report/generate/"
-        customerreportform(url);
+        var customer_id = $('#customerdropdown').val();
+        window.location = "/service/customer/report/generate/"+ customer_id +"/"
     });
 });

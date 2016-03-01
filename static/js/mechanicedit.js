@@ -11,13 +11,16 @@ var csrftoken = getCookie('csrftoken');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
                  success: function(data){
-                    alert("Saved Successfully")
                     window.location.href = "/mechanic/view/"
                  },
                  error: function(){
-                    alert("Something went wrong plz try again")
-                    window.location.href = "/home/"
-                 }
+                    $.toast({
+                        heading: 'Error',
+                        text: 'Something went wrong!!! Please try again.',
+                        icon: 'error',
+                        hideAfter: 4000,
+                        position: 'bottom-right'
+                    })                 }
             });
             return false; //<---- move it here
        });

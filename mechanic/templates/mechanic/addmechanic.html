@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                <form id="mechanicform" method="POST">
+                                <form id="mechanicform" action="/mechanic/update/" method="POST">
                                     {%csrf_token%}
                                     <div class="sub-title">First Name</div>
                                     <div>
@@ -54,6 +54,10 @@
                                             Female
                                           </label>
                                         </div>
+                                    </div>
+                                    <div class="sub-title">Select Profile Picture</div>
+                                    <div>
+                                        <input type="file" name="profile_picture" id="profile_picture">
                                     </div>
                                     <div class="sub-title">About</div>
                                     <div>

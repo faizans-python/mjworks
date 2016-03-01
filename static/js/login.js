@@ -14,8 +14,24 @@ var csrftoken = getCookie('csrftoken');
         },
                  success: function(data){
                      if (data == "Success"){
+                        $.toast({
+                            heading: 'Successfully Logged In',
+                            text: 'Welcome '+ $('#username').val(),
+                            icon: 'success',
+                            hideAfter: 4000,
+                            position: 'mid-center'
+                        })
                         window.location.href = "/home/"
-                     } 
+                     }
+                     else{
+                        $.toast({
+                            heading: 'Error',
+                            text: 'Username and Password do not match',
+                            icon: 'error',
+                            hideAfter: 4000,
+                            position: 'mid-center'
+                        })
+                    }  
                  }
             });
             return false; //<---- move it here

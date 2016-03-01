@@ -12,11 +12,22 @@ $(document).ready(function() {
     },
              success: function(data){
                 $("#customerform").trigger('reset');
-                alert(data + " added successfully")
+                $.toast({
+                    heading: 'Success',
+                    text: 'Customer added successfully!!!  ',
+                    icon: 'success',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong!!! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
         return false; //<---- move it here

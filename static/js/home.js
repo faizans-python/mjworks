@@ -1,4 +1,4 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
     var csrftoken = getCookie('csrftoken');
 
     $("#mechanicform").submit(function(event){
@@ -22,3 +22,4 @@ $(document).ready(function() {
         return false; //<---- move it here
    });
 });
+*/

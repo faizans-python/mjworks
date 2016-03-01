@@ -20,16 +20,27 @@ $(document).ready(function() {
              success: function(data){
              	$("#reportresult").html(data);
                 $("#generate-invoice").show();
+                $.toast({
+                    heading: 'Success',
+                    text: 'Report sucessfully generated !!!'+,
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              },
              error: function(){
-                alert("Something went wrong plz try again")
-                window.location.href = "/home/"
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong!!! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
     });
 
     $("#generate-invoice").click(function(event) {
-        console.log("clicked")
         $("#report-form").submit();
     });
 });

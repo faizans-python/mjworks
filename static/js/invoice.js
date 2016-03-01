@@ -75,6 +75,13 @@ $(document).ready(function() {
 
     $("#calculateamount").click(function(event){
         calculateSum()
+        $.toast({
+            heading: 'Cost Generated',
+            text: 'Total Cost is ' + $('#totalcost').val(),
+            icon: 'info',
+            hideAfter: 4000,
+            position: 'bottom-right'
+        })
     });
 
     $("#addpart").click(function(event){
@@ -105,13 +112,17 @@ $(document).ready(function() {
             },
              success: function(data){
                 $('body').loading('stop');
-                $.notify("Invoice successfully Generated !", "success");
                 window.location.reload();
              },
              error: function(){
                 $('body').loading('stop');
-                $.notify("Something went wrong plz try again", "error");
-                window.location.reload();
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong!!! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
     }
@@ -156,13 +167,17 @@ $(document).ready(function() {
             },
              success: function(data){
                 $('body').loading('stop');
-                $.notify(" payment was successfully", "success");
                 window.location.reload();
              },
              error: function(){
                 $('body').loading('stop');
-                $.notify("Something went wrong plz try again", "error")
-                window.location.reload();
+                $.toast({
+                    heading: 'Error',
+                    text: 'Something went wrong!!! Please try again',
+                    icon: 'error',
+                    hideAfter: 4000,
+                    position: 'bottom-right'
+                })
              }
         });
     });
