@@ -21,19 +21,19 @@
                                     {%csrf_token%}
                                     <div class="sub-title">First Name</div>
                                     <div>
-                                        <input type="text" id="first_name" name="first_name" placeholder="First Name" class="form-control" required>
+                                        <input type="text" id="first_name" name="first_name" placeholder="First Name" autocomplete="off" class="form-control" required>
                                     </div>
                                     <div class="sub-title">Last Name</div>
                                     <div>
-                                        <input type="text" id="last_name" name="last_name" placeholder="Last Name" class="form-control" required>
+                                        <input type="text" autocomplete="off" id="last_name" name="last_name" placeholder="Last Name" class="form-control" required>
                                     </div>
                                     <div class="sub-title">Email</div>
                                     <div>
-                                        <input type="email" id="email" name="email" placeholder="Email" class="form-control">
+                                        <input type="email" autocomplete="off" id="email" name="email" placeholder="Email" class="form-control">
                                     </div>
                                     <div class="sub-title">Contact Number</div>
                                     <div>
-                                        <input type="text" id="phone_number" name="phone_number" placeholder="Contact Number" class="form-control" MAXLENGTH=12 onKeyPress="return numbersonly(this, event)">
+                                        <input type="text" autocomplete="off" id="phone_number" name="phone_number" placeholder="Contact Number" class="form-control" MAXLENGTH=12 onKeyPress="return numbersonly(this, event)">
                                     </div>
                                     <div class="sub-title">Address</div>
                                     <div>

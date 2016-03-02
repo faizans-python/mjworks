@@ -21,19 +21,19 @@
                         {%csrf_token%}
                         <div class="sub-title">First Name</div>
                         <div>
-                            <input type="text" id="first_name" name="first_name" placeholder="First Name" class="form-control" value={{customer.first_name}} required readonly>
+                            <input type="text" id="first_name" name="first_name" placeholder="First Name" class="form-control" autocomplete="off" value={{customer.first_name}} required readonly>
                         </div>
                         <div class="sub-title">Last Name</div>
                         <div>
-                            <input type="text" id="last_name" name="last_name" placeholder="Last Name" class="form-control" value={{customer.last_name}} required readonly>
+                            <input type="text" id="last_name" name="last_name" placeholder="Last Name" class="form-control" autocomplete="off" value={{customer.last_name}} required readonly>
                         </div>
                         <div class="sub-title">Email</div>
                         <div>
-                            <input type="email" id="email" name="email" value="{{customer.email}}" placeholder="Email" class="form-control">
+                            <input type="email" id="email" name="email" value="{{customer.email}}" placeholder="Email" autocomplete="off" class="form-control">
                         </div>
                         <div class="sub-title">Contact Number</div>
                         <div>
-                            <input type="text" id="phone_number" value={{customer.phone_number}} name="phone_number" placeholder="Contact Number" MAXLENGTH=12 onKeyPress="return numbersonly(this, event)" class="form-control" required="">
+                            <input type="text" id="phone_number" value={{customer.phone_number}} name="phone_number" placeholder="Contact Number" autocomplete="off" MAXLENGTH=12 onKeyPress="return numbersonly(this, event)" class="form-control" required="">
                         </div>
                         <div class="sub-title">Address</div>
                         <div>
