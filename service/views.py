@@ -78,12 +78,13 @@ def service_create(request):
             service_form['expected_delivery_date'], "%m/%d/%Y").date()
         advance_payment = False
         if service_form.get('advance_payment'):
-            service_form['advance_payment'] = int(
-                service_form.get('advance_payment'))
-            advance_payment = True
-            payment = Payment.objects.create(
-                payment_amount=int(service_form.get('advance_payment')),
-                recieved_by=request.user)
+            if service_form.get('advance_payment') > 0:
+                service_form['advance_payment'] = int(
+                    service_form.get('advance_payment'))
+                advance_payment = True
+                payment = Payment.objects.create(
+                    payment_amount=int(service_form.get('advance_payment')),
+                    recieved_by=request.user)
         else:
             service_form['advance_payment'] = 0
 
@@ -318,8 +319,7 @@ def customer_report(request):
 
         customer_obj = Customer.objects.get(id=customer_id[0])
 
-        service_obj = Service.objects.filter(customer = customer_obj,
-                                             complete_payment=complete_payment,
+        service_obj = Service.objects.filter(customer=customer_obj,
                                              is_serviced=True)
         template = get_template('service/customerreportview.html')
         context = Context({'services': service_obj, 'customer': customer_obj})
@@ -349,14 +349,24 @@ def invoice_list(request):
 @login_required(login_url='/')
 def customer_report_generate(request, id):
     if request.method == "GET":
-
         customer_obj = Customer.objects.get(id=id)
 
         service_obj = Service.objects.filter(customer = customer_obj,
                                              is_serviced=True)
+        total_cost = 0
+        total_paid = 0
+        total_pending = 0
+        for service in service_obj:
+            total_cost += service.total_cost
+            total_paid += service.total_paid
+            total_pending += service.total_pending
+
         context = RequestContext(request, {
             'services': service_obj,
-            'customer': customer_obj})
+            'customer': customer_obj,
+            'total_pending': total_pending,
+            'total_paid': total_paid,
+            'total_cost': total_cost})
         return render_to_response('service/customerreportpdf.html',
                           context_instance=context)
 
@@ -377,9 +387,21 @@ def report_generate(request):
                                              service_date__lt=till_date,
                                              complete_payment=complete_payment,
                                              is_serviced=True)
+
+        total_cost = 0
+        total_paid = 0
+        total_pending = 0
+        for service in service_obj:
+            total_cost += service.total_cost
+            total_paid += service.total_paid
+            total_pending += service.total_pending
+
         context = RequestContext(request, {
             "services": service_obj,
             "from_date": from_date.date(),
-            "till_date": till_date.date()})
+            "till_date": till_date.date(),
+            'total_pending': total_pending,
+            'total_paid': total_paid,
+            'total_cost': total_cost})
         return render_to_response('service/reportpdf.html',
                           context_instance=context)

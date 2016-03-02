@@ -24,7 +24,7 @@ $(document).ready(function() {
                     $.toast({
                         heading: 'Success',
                         text: 'Report Generated Sucessfully!!!',
-                        icon: 'error',
+                        icon: 'success',
                         hideAfter: 4000,
                         position: 'bottom-right'
                     })

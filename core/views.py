@@ -34,9 +34,6 @@ def home(request):
     return render_to_response('core/context.html',
                               context_instance=context)
 
-def page_not_found(request):
-    return render(request, 'core/page_not_found.html')
-
 
 @require_http_methods(["POST"])
 def verify(request):
@@ -48,3 +45,9 @@ def verify(request):
             return HttpResponse("Success")
     else:
         return HttpResponse("Username and Password do not match")
+
+
+@login_required(login_url='/')
+def page_not_found_error(request, template_name='404.html'):
+    return render_to_response(template_name,
+                              context_instance=RequestContext(request))
