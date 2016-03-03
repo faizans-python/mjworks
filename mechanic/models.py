@@ -36,7 +36,7 @@ class Mechanic(models.Model):
     about = models.TextField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     gender = models.CharField(blank=True, max_length=20, null=True)
-    phone_number = models.IntegerField()
+    phone_number = models.BigIntegerField()
     advance_taken = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     profile_picture = models.ImageField(

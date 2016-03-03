@@ -31,6 +31,7 @@ def add_mechanic_view(request):
         mechanic_values['created_by'] = request.user
         mechanic_values['gender'] = mechanic_values['radio1']
         del mechanic_values['radio1']
+        import pdb;pdb.set_trace()
         mechanic_obj = Mechanic.objects.create(**mechanic_values)
         return HttpResponseRedirect('/mechanic/view/')
 
