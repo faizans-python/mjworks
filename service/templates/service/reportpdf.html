@@ -49,10 +49,27 @@
                             </td>
                             <!-- "http://nextstepwebs.com/images/logo.png" -->                            
                             <td>
-                                M.J. Engineering Works<br>
-                                Vapi, Gujarat<br>
-                                India
+                            <h4>Report from {{from_date}} to {{till_date}}</h4>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                M.J. Engineering Works<br>
+                                Aman Complex, Behind Hotel Delhi Darbar, Char Rasta,<br>
+                                Vapi, Gujarat, India<br>
+                                <b>PAN NO:</b> ACRPK1146Q<br>
+                                <b>Ph:</b> 0260-2425520 <br>
+                                <b>Mobile:</b> 9426156069
+                            </td>
+                            
+                            <td class="pull-right">
                             </td>
                         </tr>
                     </table>
@@ -61,11 +78,11 @@
 
             <br>
             <table>
-            <h4>Report from {{from_date}} to {{till_date}}</h4>
+            <h4>Report Description</h4>
             <tr class="heading">
             <td>#</td>
             <td>Name</td>
-            <td>Vehicle</td>
+            <td>Serviced Product</td>
             <td>Total Price</td>
             <td>Total Paid</td>
             <td>Total Pending</td>
@@ -75,7 +92,11 @@
               <tr class="item">
                 <td>{{ forloop.counter }}</td>
                 <td>{{service.customer}}</td>
-                <td>{{service.vehical}}</td>
+                {% if service.vehical %}
+                    <td>{{service.vehical}}</td>
+                {% else %}
+                    <td>{{service.otherservice}}</td>
+                {% endif %}
                 <td>{{service.total_cost}}</td>
                 <td>{{service.total_paid}}</td>
                 <td>{{service.total_pending}}</td>

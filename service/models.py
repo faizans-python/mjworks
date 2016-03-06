@@ -6,7 +6,10 @@ from django_resized import ResizedImageField
 from customer.models import Customer
 from parts.models import Part
 from mechanic.models import Mechanic
-from vehical.models import Vehical
+from vehical.models import (
+    Vehical,
+    OtherService
+)
 
 
 class Payment(models.Model):
@@ -33,7 +36,8 @@ class Service(models.Model):
     customer = models.ForeignKey(Customer)
     serviced_by = models.ForeignKey(Mechanic, blank=True, null=True)
     created_by = models.ForeignKey(User)
-    vehical = models.ForeignKey(Vehical)
+    vehical = models.ForeignKey(Vehical, blank=True, null=True)
+    otherservice = models.ForeignKey(OtherService, blank=True, null=True)
     parts = models.ManyToManyField(Part)
     payment = models.ManyToManyField(Payment)
     remark = models.TextField(blank=True, null=True)

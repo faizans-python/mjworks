@@ -63,26 +63,26 @@
                 <div class="card-header">
 
                     <div class="card-title">
-                    <div class="title">Service Details</div>
+                    <div class="title">Service Product Details</div>
                     </div>
                 </div>
                 <div class="card-body">
                     <table class="datatable table table-striped" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Vehicle Number</th>
-                                <th>Vehicle Name</th>
+                                <th>Number</th>
+                                <th>Name</th>
                                 <th>Last Serviced</th>
-                                <th>Vehicle Color</th>
+                                <th>Problem Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Vehicle Number</th>
-                                <th>Vehicle Name</th>
+                                <th>Number</th>
+                                <th>Name</th>
                                 <th>Last Serviced</th>
-                                <th>Vehicle Color</th>
+                                <th>Problem Description</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -92,7 +92,20 @@
                                 <td>{{vehical.vehical_number}}</td>
                                 <td>{{vehical.vehical_name|title}}</td>
                                 <td>{{vehical.last_serviced_date }}</td>
-                                <td>{{vehical.vehical_colour}}</td>
+                                <td>{{vehical.about|truncatewords:10}}</td>
+                                <td>
+                                    <div aria-label="Extra-small button group" role="group" class="btn-group btn-group-xs">
+                                      <a class="btn btn-default customerbutton" href="" id={{service.invoice_number}} value="view" type="button">View</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% for other in customer.otherservice_set.all %}
+                            <tr>
+                                <td>{{other.number}}</td>
+                                <td>{{other.name|title}}</td>
+                                <td>{{other.created_at}}</td>
+                                <td>{{other.about|truncatewords:10}}</td>
                                 <td>
                                     <div aria-label="Extra-small button group" role="group" class="btn-group btn-group-xs">
                                       <a class="btn btn-default customerbutton" href="" id={{service.invoice_number}} value="view" type="button">View</a>
@@ -121,7 +134,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice Number</th>
-                                <th>Vehicle</th>
+                                <th>Service Product</th>
                                 <th>Customer</th>
                                 <th>Date</th>
                                 <th>Total Paid</th>
@@ -133,7 +146,7 @@
                         <tfoot>
                             <tr>
                                 <th>Invoice Number</th>
-                                <th>Vehicle</th>
+                                <th>Service Product</th>
                                 <th>Customer</th>
                                 <th>Date</th>
                                 <th>Total Paid</th>
@@ -146,7 +159,11 @@
                             {% for service in customer.service_set.all %}
                             <tr>
                                 <td>{{service.invoice_number}}</td>
-                                <td>{{service.vehical}}</td>
+                                {% if service.vehical %}
+                                    <td>{{service.vehical}}</td>
+                                {% else %}
+                                    <td>{{service.otherservice}}</td>
+                                {% endif %}
                                 <td>{{service.customer|title }}</td>
                                 <td>{{service.service_date}}</td>
                                 <td>$ {{service.total_paid}}</td>
@@ -158,8 +175,7 @@
                                 {% endif %}
                                 <td>
                                     <div aria-label="Extra-small button group" role="group" class="btn-group btn-group-xs">
-                                      <a class="btn btn-default customerbutton" href="{% url 'service:service_view' service.invoice_number%}" id={{service.invoice_number}} value="view" type="button">View</a>
-                                      <a class="btn btn-default customerbutton" href="" id={{service.invoice_number}} value="view" type="button">Edit</a>
+                                      <a class="btn btn-default customerbutton" href="{% url 'service:service_view' service.invoice_number%}" id={{service.invoice_number}} value="view" type="button">View</a> 
                                     </div>
                                 </td>
                             </tr>

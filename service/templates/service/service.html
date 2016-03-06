@@ -86,7 +86,24 @@
                         <div class="title">Enter Vehicle Detail</div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div id="service_type" class="card-body">
+                    <div class="sub-title">Select Service Type</div>
+                    <form class="form-inline">
+                        <div class="checkbox">
+                            <input type="checkbox" class="group1"  id="vehical_service" name="vehical_service">
+                            <label for="exampleInputEmail2">
+                                Vehical
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" class="group1" id="other" name="other">
+                            <label for="exampleInputEmail2">
+                                Other
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" style="display: none;" id="vehicalcompleteform">
                     <form class="form-inline">
                          <label for="exampleInputEmail2">Select Vehicle: </label>&nbsp;&nbsp;
                          <select id="vehicaldropdown" class="customdropdown">
@@ -95,8 +112,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button class="btn btn-xs btn-default" id="addvehical">Add New Vehicle</button>
                     </form>
-
-                    <form class="form-inline" style="display: none;" id="vechicalform">
+                    <form class="form-inline" id="vechicalform">
                         <div class="sub-title">Vehicle Details</div>
                         <div class="form-group" style="padding-right:5em;">
                             <label for="exampleInputEmail2">Vehicle Number: </label>&nbsp;&nbsp;
@@ -113,14 +129,37 @@
                         <br>
                         <br>
                         <div class="form-group" style="padding-right:5em;">
-                            <label for="exampleInputEmail2">About Vehicle: </label>&nbsp;&nbsp;
+                            <label for="exampleInputEmail2">Problem Description: </label>&nbsp;&nbsp;
+                            <textarea type="text" rows="2" cols="50" placeholder="" id="about" name="about" class="form-control"> </textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" style="display: none;" id="othercompleteform">
+                    <form class="form-inline" id="otherform">
+                        <div class="sub-title">Service Type Details</div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Number: </label>&nbsp;&nbsp;
+                            <input type="text" placeholder="ES XXXX" name="number" id="number" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Name: </label>&nbsp;&nbsp;
+                            <input type="text" placeholder="Audi" name="name" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Company Name: </label>&nbsp;&nbsp;
+                            <input type="text" placeholder="Black / Blue" id="company_name" name="company_name" class="form-control">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Problem Description: </label>&nbsp;&nbsp;
                             <textarea type="text" rows="2" cols="50" placeholder="" id="about" name="about" class="form-control"> </textarea>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="card">

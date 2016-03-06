@@ -26,6 +26,18 @@ $(document).ready(function() {
         minDate: dateToday
     });
 
+    $("#vehical_service").click(function(event) {
+      $("#vehicalcompleteform").show();
+      service_type = "vehical"
+      $("input.group1").attr("disabled", true);
+    });
+
+    $("#other").click(function(event) {
+      service_type = "other"
+      $("#othercompleteform").show();
+      $("input.group1").attr("disabled", true);
+    });
+
     function autofillCustomerform(data) {
         $("#customerform").autofill(data);
         $("#customerform").show();
@@ -133,14 +145,22 @@ $(document).ready(function() {
         event.preventDefault();
         $("#customerform").show();
         $("#vechicalform").show();
-        if ($('#customerform').valid() && $('#vechicalform').valid()) {
+        if (service_type == "vehical") {
+          service_type_form = '#vechicalform';
+        }
+        if (service_type == "other") {
+          service_type_form = '#otherform';
+        }
+
+        if ($('#customerform').valid() && $(service_type_form).valid()) {
             $('body').loading({stoppable: false}, 'start');
             var data = {
-                'customer': $('#customerform').serializeJSON(),
-                'vehical': $("#vechicalform").serializeJSON(),
+                "customer": $('#customerform').serializeJSON(),
+                service_type_form: $(service_type_form).serializeJSON(),
                 "service_deatils": $("#serviceform").serializeJSON(),
                 "mechanic": $('#mechanicdropdown').val(),
-                "gender": $('#customerform input:radio:checked').val()
+                "gender": $('#customerform input:radio:checked').val(),
+                "service_type":service_type
             }
             submitserviceform(data);
         }

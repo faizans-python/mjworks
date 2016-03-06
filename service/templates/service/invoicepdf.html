@@ -65,14 +65,23 @@
                         <tr>
                             <td>
                                 M.J. Engineering Works<br>
-                                Vapi, Gujarat<br>
-                                India
+                                Aman Complex, Behind Hotel Delhi Darbar, Char Rasta,<br>
+                                Vapi, Gujarat, India<br>
+                                <b>PAN NO:</b> ACRPK1146Q<br>
+                                <b>Ph:</b> 0260-2425520 <br>
+                                <b>Mobile:</b> 9426156069
                             </td>
                             
                             <td class="pull-right">
                                 <span class="fa fa-user">  {{service.customer}}<span><br>
                                 <span class="fa fa-phone">  {{service.customer.phone_number}}<span><br>
+                                {% if service.vehical %}
                                 <span class="fa fa-truck">  {{service.vehical}} <span>
+                                {% else %}
+                                <span class="fa fa-truck">  {{service.otherservice}} <span><br>
+                                <span class="fa fa-barcode">  {{service.otherservice.number}} <span>
+                                {% endif %}
+
                             </td>
                         </tr>
                     </table>

@@ -23,7 +23,7 @@
                             <thead>
                                 <tr>
                                     <th>Invoice Number</th>
-                                    <th>Vehicle</th>
+                                    <th>Service Product</th>
                                     <th>Customer</th>
                                     <th>Date</th>
                                     <th>Total Paid</th>
@@ -35,7 +35,7 @@
                             <tfoot>
                                 <tr>
                                     <th>Invoice Number</th>
-                                    <th>Vehicle</th>
+                                    <th>Service Product</th>
                                     <th>Customer</th>
                                     <th>Date</th>
                                     <th>Total Paid</th>
@@ -48,7 +48,11 @@
                                 {% for service in services %}
                                 <tr>
                                     <td>{{service.invoice_number}}</td>
-                                    <td>{{service.vehical}}</td>
+                                    {% if service.vehical %}
+                                        <td>{{service.vehical}}</td>
+                                    {% else %}
+                                        <td>{{service.otherservice}}</td>
+                                    {% endif %}
                                     <td>{{service.customer|title }}</td>
                                     <td>{{service.service_date}}</td>
                                     <td>$ {{service.total_paid}}</td>

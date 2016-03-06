@@ -54,6 +54,7 @@
             </div>
     <div class="row">
         <div class="col-xs-12">
+{% if service.vehical %}
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
@@ -64,28 +65,60 @@
                     <form class="form-inline">
                         <div class="sub-title">Vehicle Details</div>
                         <div class="form-group" style="padding-right:5em;">
-                            <label for="exampleInputEmail2">Car Number: </label>&nbsp;&nbsp;
+                            <label for="exampleInputEmail2">Vehicle Number: </label>&nbsp;&nbsp;
                             {{service.vehical.vehical_number}}
                         </div>
                         <div class="form-group" style="padding-right:5em;">
-                            <label for="exampleInputEmail2">Car Name: </label>&nbsp;&nbsp;
+                            <label for="exampleInputEmail2">Vehicle Name: </label>&nbsp;&nbsp;
                             {{service.vehical.vehical_name|title}}
                         </div>
                         <div class="form-group" style="padding-right:5em;">
-                            <label for="exampleInputEmail2">Colour: </label>&nbsp;&nbsp;
+                            <label for="exampleInputEmail2">Vehicle Colour: </label>&nbsp;&nbsp;
                             {{service.vehical.vehical_colour|title|default:"NA"}}
                         </div>
                         <br>
                         <br>
                         <div class="form-group" style="padding-right:5em;">
-                            <label for="exampleInputEmail2">About: </label>&nbsp;&nbsp;
+                            <label for="exampleInputEmail2">Problem Description: </label>&nbsp;&nbsp;
                             {{service.vehical.about|title|default:"NA"|default_if_none:"NA"}}
                         </div>
                     </form>
                 </div>
             </div>
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="title">Service Product Details</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form class="form-inline">
+                        <div class="sub-title">Product Details</div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Number: </label>&nbsp;&nbsp;
+                            {{service.otherservice.number}}
+                        </div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Name: </label>&nbsp;&nbsp;
+                            {{service.otherservice.name|title}}
+                        </div>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Company Name: </label>&nbsp;&nbsp;
+                            {{service.otherservice.company_name|title|default:"NA"}}
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group" style="padding-right:5em;">
+                            <label for="exampleInputEmail2">Problem Description: </label>&nbsp;&nbsp;
+                            {{service.otherservice.about|title|default:"NA"|default_if_none:"NA"}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
         </div>
-        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="card">

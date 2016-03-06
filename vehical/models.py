@@ -21,3 +21,22 @@ class Vehical(models.Model):
 
     def __unicode__(self):
         return u''.join((self.vehical_number))
+
+
+class OtherService(models.Model):
+
+    """
+    Customer model to store all customer related information
+    """
+
+    customer = models.ForeignKey(Customer)
+    created_by = models.ForeignKey(User)
+    number = models.CharField(unique=True, max_length=50)
+    name = models.CharField(blank=True, max_length=50)
+    company_name = models.CharField(blank=True, max_length=50)
+    about = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u''.join((self.name))

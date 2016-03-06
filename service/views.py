@@ -17,7 +17,10 @@ from django.template.loader import get_template
 
 from mechanic.models import Mechanic
 from customer.models import Customer
-from vehical.models import Vehical
+from vehical.models import (
+    Vehical,
+    OtherService
+)
 from service.models import (
     Service,
     Payment
@@ -43,7 +46,6 @@ def service_create(request):
         data = request.POST.dict()
         forms = json.loads(data.keys()[0])
         customer_form = forms.get('customer')
-        vehical_form = forms.get('vehical')
         service_form = forms.get('service_deatils')
         mechanic_id = forms.get('mechanic')
         gender = forms.get('gender')
@@ -58,22 +60,32 @@ def service_create(request):
         else:
             customer_obj = customer[0]
 
-        vehical_form['customer'] = customer_obj
-        vehical = Vehical.objects.filter(**vehical_form)
-        if not vehical:
-            vehical_form['created_by'] = request.user
-            vehical_form['last_serviced_date'] = timezone.now()
-            vehical = Vehical.objects.create(**vehical_form)
-        else:
-            vehical = vehical[0]
-            vehical.last_serviced_date = timezone.now()
-            vehical.save()
+        if forms.get("service_type") == "vechiacl":
+            vehical_form = forms.get("service_type_form")
+            vehical_form['customer'] = customer_obj
+            vehical = Vehical.objects.filter(**vehical_form)
+            if not vehical:
+                vehical_form['created_by'] = request.user
+                vehical_form['last_serviced_date'] = timezone.now()
+                vehical = Vehical.objects.create(**vehical_form)
+            else:
+                vehical = vehical[0]
+                vehical.last_serviced_date = timezone.now()
+                vehical.save()
+            service_form['vehical'] = vehical
+
+        if forms.get("service_type") == "other":
+            other_form = forms.get("service_type_form")
+            other_form['customer'] = customer_obj
+            other_form['created_by'] = request.user
+            other_form['created_at'] = timezone.now()
+            other_obj = OtherService.objects.create(**other_form)
+            service_form['otherservice'] = other_obj
 
         if mechanic_id:
             service_form['serviced_by'] = Mechanic.objects.get(id=mechanic_id)
         service_form['created_by'] = request.user
         service_form['customer'] = customer_obj
-        service_form['vehical'] = vehical
         service_form['expected_delivery_date'] = datetime.datetime.strptime(
             service_form['expected_delivery_date'], "%m/%d/%Y").date()
         advance_payment = False
@@ -91,6 +103,7 @@ def service_create(request):
         service = Service.objects.create(**service_form)
         if advance_payment:
             service.payment.add(payment)
+            service.total_paid = int(service_form.get('advance_payment'))
             service.save()
         obj=list(Service.objects.filter(
             invoice_number=service.invoice_number).values())
