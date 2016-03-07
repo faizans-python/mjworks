@@ -116,6 +116,29 @@
             </table>
             <br>
             <table>
+            <h4>Labour Cost Descriptions</h4>
+            <tr class="heading">
+                <td>
+                    Check #
+                </td>
+                <td>
+                   Name
+                </td>
+                <td>
+                    Price
+                </td>
+            </tr>
+            
+               {% for labour in service.labourcost_detail.all %}
+                <tr class="item">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{labour.name}}</td>
+                    <td>{{labour.labour_price}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <table>
             <h4>Payment Description</h4>
             <tr class="heading">
                 <td>

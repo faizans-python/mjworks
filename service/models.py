@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django_resized import ResizedImageField
 
 from customer.models import Customer
-from parts.models import Part
+from parts.models import (
+    Part,
+    LabourCost
+)
 from mechanic.models import Mechanic
 from vehical.models import (
     Vehical,
@@ -39,6 +42,7 @@ class Service(models.Model):
     vehical = models.ForeignKey(Vehical, blank=True, null=True)
     otherservice = models.ForeignKey(OtherService, blank=True, null=True)
     parts = models.ManyToManyField(Part)
+    labourcost_detail = models.ManyToManyField(LabourCost)
     payment = models.ManyToManyField(Payment)
     remark = models.TextField(blank=True, null=True)
     service_date = models.DateTimeField(auto_now_add=True)

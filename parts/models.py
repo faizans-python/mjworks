@@ -12,3 +12,13 @@ class Part(models.Model):
 
     def __unicode__(self):
         return u''.join((self.part_name))
+
+
+class LabourCost(models.Model):
+    created_by = models.ForeignKey(User)
+    name = models.CharField(blank=True, max_length=50)
+    labour_price = models.FloatField(blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u''.join((self.name))

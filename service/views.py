@@ -7,7 +7,8 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate
 from django.http import (
     HttpResponse,
-    HttpResponseBadRequest
+    HttpResponseBadRequest,
+    HttpResponseRedirect
 )
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -25,7 +26,10 @@ from service.models import (
     Service,
     Payment
 )
-from parts.models import Part
+from parts.models import (
+    Part,
+    LabourCost
+)
 
 
 @require_http_methods(["GET"])
@@ -60,7 +64,7 @@ def service_create(request):
         else:
             customer_obj = customer[0]
 
-        if forms.get("service_type") == "vechiacl":
+        if forms.get("service_type") == "vehical":
             vehical_form = forms.get("service_type_form")
             vehical_form['customer'] = customer_obj
             vehical = Vehical.objects.filter(**vehical_form)
@@ -215,37 +219,53 @@ def invoice(request):
                 service_obj.total_cost = data.get('total_cost', 0)
                 service_obj.remark = data.get('remark', "")
                 if data.get('next_service_date'):
-		        service_obj.next_service_date = datetime.datetime.strptime(
-		            data.get('next_service_date'), "%m/%d/%Y").date()
+                    service_obj.next_service_date = datetime.datetime.strptime(
+                        data.get('next_service_date'), "%m/%d/%Y").date()
                 service_obj.delivery_date = timezone.now()
                 service_obj.total_paid += int(data.get('total_paid', 0))
                 payment = Payment.objects.create(payment_amount=data.get('total_paid'),
                                                  recieved_by=request.user)
                 total_pending = int(
                     data.get('total_cost', 0)) - int(data.get('total_paid', 0))
-                total_pending -= service_obj.advance_payment 
+                total_pending -= service_obj.advance_payment
                 service_obj.total_pending = total_pending
                 if total_pending < 1:
-                    service_obj.complete_payment = True                    
+                    service_obj.complete_payment = True
 
                 part_data = data.get('part_data')
                 part_obj = []
                 part_total_cost = 0
                 for part in part_data:
-                    if part.get('part_name') and part.get('price'):
-                        obj = Part.objects.create(part_name=part.get('part_name'),
-                                                  price=part.get('price'),
-                                                  part_quantity=part.get(
-                                                      'part_quantity'),
-                                                  created_by=request.user)
-                        part_total_cost += (int(obj.price)
-                                            * int(obj.part_quantity))
-                        part_obj.append(obj)
+                    if part:
+                        if part.get('part_name') and part.get('price'):
+                            obj = Part.objects.create(part_name=part.get('part_name'),
+                                                      price=part.get('price'),
+                                                      part_quantity=part.get(
+                                                          'part_quantity'),
+                                                      created_by=request.user)
+                            part_total_cost += (int(obj.price)
+                                                * int(obj.part_quantity))
+                            part_obj.append(obj)
+
+                labour_data = data.get('labour_data')
+                labour_obj = []
+                labour_total_cost = 0
+                for labour in labour_data:
+                    if labour:
+                        if labour.get('name') and labour.get('labour_price'):
+                            obj = LabourCost.objects.create(
+                                name=labour.get('name'),
+                                labour_price=labour.get('labour_price'),
+                                created_by=request.user)
+                            labour_total_cost += int(obj.labour_price)
+                            labour_obj.append(obj)
+
                 service_obj.parts.add(*part_obj)
+                service_obj.labourcost_detail.add(*labour_obj)
                 service_obj.payment.add(payment)
                 service_obj.part_cost = part_total_cost
                 service_obj.save()
-                return HttpResponse("EDit Complete")
+                return HttpResponse("Invoice Generated Successfilly")
             return HttpResponseRedirect("/home/")
 
 
