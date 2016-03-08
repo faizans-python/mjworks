@@ -94,7 +94,7 @@ def service_create(request):
             service_form['expected_delivery_date'], "%m/%d/%Y").date()
         advance_payment = False
         if service_form.get('advance_payment'):
-            if service_form.get('advance_payment') > 0:
+            if int(service_form.get('advance_payment')) > 0:
                 service_form['advance_payment'] = int(
                     service_form.get('advance_payment'))
                 advance_payment = True
@@ -282,7 +282,7 @@ def pending_payment(request):
                 pending_amount = service_obj.total_pending - data.get('pending_payment')
                 payment = Payment.objects.create(payment_amount=data.get('pending_payment'),
                                                  recieved_by=request.user)
-                if pending_amount == 0:
+                if pending_amount < 1:
                     service_obj.complete_payment = True
 
                 service_obj.total_paid += data.get('pending_payment')
@@ -314,15 +314,15 @@ def report(request):
                                   context_instance=context)
     if request.method == "POST":
         request_dict = request.POST.dict()
-        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y")
-        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y")
+        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y").date()
+        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y").date()
         if request_dict.get('pending'):
             complete_payment = False
         else:
             complete_payment = True
 
-        service_obj = Service.objects.filter(service_date__gt=from_date,
-                                             service_date__lt=till_date,
+        service_obj = Service.objects.filter(service_date__gte=from_date,
+                                             service_date__lte=till_date,
                                              complete_payment=complete_payment,
                                              is_serviced=True)
         template = get_template('service/reportview.html')

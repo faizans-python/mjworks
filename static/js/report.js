@@ -4,7 +4,9 @@ $(document).ready(function() {
     $("#till-date").datepicker({
         maxDate: dateToday
     });
-    $("#from-date").datepicker();
+    $("#from-date").datepicker({
+        maxDate: dateToday
+    });
 
     $("#generate-report").click(function(event) {
         event.preventDefault();
