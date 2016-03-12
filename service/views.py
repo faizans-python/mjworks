@@ -223,8 +223,10 @@ def invoice(request):
                         data.get('next_service_date'), "%m/%d/%Y").date()
                 service_obj.delivery_date = timezone.now()
                 service_obj.total_paid += int(data.get('total_paid', 0))
-                payment = Payment.objects.create(payment_amount=data.get('total_paid'),
-                                                 recieved_by=request.user)
+                if int(data.get('total_paid')) > 0:
+                    payment = Payment.objects.create(payment_amount=data.get('total_paid'),
+                                                     recieved_by=request.user)
+                    service_obj.payment.add(payment)
                 total_pending = int(
                     data.get('total_cost', 0)) - int(data.get('total_paid', 0))
                 total_pending -= service_obj.advance_payment
@@ -262,7 +264,6 @@ def invoice(request):
 
                 service_obj.parts.add(*part_obj)
                 service_obj.labourcost_detail.add(*labour_obj)
-                service_obj.payment.add(payment)
                 service_obj.part_cost = part_total_cost
                 service_obj.save()
                 return HttpResponse("Invoice Generated Successfilly")
@@ -275,21 +276,26 @@ def pending_payment(request):
     if request.method == "POST":
         request_dict = request.POST.dict()
         data = json.loads(request_dict.keys()[0])
-        service_obj = Service.objects.filter(invoice_number=data.get('service_id'))
+        service_obj = Service.objects.filter(
+            invoice_number=data.get('service_id'))
         if service_obj:
             service_obj = service_obj[0]
             if service_obj.is_serviced:
-                pending_amount = service_obj.total_pending - data.get('pending_payment')
-                payment = Payment.objects.create(payment_amount=data.get('pending_payment'),
-                                                 recieved_by=request.user)
+                pending_amount = service_obj.total_pending - \
+                    data.get('pending_payment')
+
+                if int(data.get('pending_payment')) > 0:
+                    payment = Payment.objects.create(
+                        payment_amount=data.get('pending_payment'),
+                        recieved_by=request.user)
+                    service_obj.payment.add(payment)
                 if pending_amount < 1:
                     service_obj.complete_payment = True
 
                 service_obj.total_paid += data.get('pending_payment')
                 service_obj.total_pending = pending_amount
-                service_obj.payment.add(payment)
                 service_obj.save()
-                return HttpResponse("Pending payment Complete") 
+                return HttpResponse("Pending payment Complete")
             return HttpResponseRedirect("/home/")
 
 
