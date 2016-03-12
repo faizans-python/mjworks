@@ -320,17 +320,16 @@ def report(request):
                                   context_instance=context)
     if request.method == "POST":
         request_dict = request.POST.dict()
-        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y").date()
-        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y").date()
+        from_date = datetime.datetime.strptime(request_dict.get("from_date"), "%m/%d/%Y")
+        till_date = datetime.datetime.strptime(request_dict.get("till_date"), "%m/%d/%Y")
         if request_dict.get('pending'):
             complete_payment = False
         else:
             complete_payment = True
 
         service_obj = Service.objects.filter(service_date__gte=from_date,
-                                             service_date__lte=till_date,
-                                             complete_payment=complete_payment,
-                                             is_serviced=True)
+            complete_payment=complete_payment,
+            is_serviced=True)
         template = get_template('service/reportview.html')
         context = Context({'services': service_obj, 'from': from_date,
                            "till": till_date})

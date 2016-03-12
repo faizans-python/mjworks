@@ -88,6 +88,7 @@
                 </td>
             </tr>
 
+            {% if service.parts.all %}
             <table>
             <h4>Item Description</h4>
             <tr class="heading">
@@ -114,7 +115,10 @@
                 </tr>
                 {% endfor %}
             </table>
+            {% endif %}
             <br>
+            
+            {% if service.labourcost_detail.all %}
             <table>
             <h4>Labour Cost Descriptions</h4>
             <tr class="heading">
@@ -137,6 +141,7 @@
                 </tr>
                 {% endfor %}
             </table>
+            {% endif %}
             <br>
             <table>
             <h4>Payment Description</h4>

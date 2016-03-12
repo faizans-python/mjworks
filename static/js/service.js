@@ -1,6 +1,8 @@
 $(document).ready(function() {
     $("#customerdropdown").prop("disabled", false);
     $("#vehicaldropdown").prop("disabled", false);
+    $("input.group1").attr("disabled", false);
+    $("input.group1").prop( "checked", false );
 
     var csrftoken = getCookie('csrftoken');
     $("#addcustomer").click(function(event) {
